@@ -4,30 +4,98 @@ $(document).ready(function () {
     var tvQuestions = [];
     var videoQuestions = [];
     var points = 0;
-    var correctCard = '<div class="card p-3 vcenter bg-light border-success none"><h5 class="h1 mb-0">CORRECT</h5></div>'
-    var incorrectCard = '<div class="card p-3 vcenter bg-light border-danger none"><h5 class="h1 mb-0">INCORRECT</h5></div>'
+    var correctCard = '<div class="card p-3 vcenter bg-light border-success none"><h5 class="h1 mb-0">CORRECT</h5></div>';
+    var incorrectCard = '<div class="card p-3 vcenter bg-light border-danger none"><h5 class="h1 mb-0">INCORRECT</h5></div>';
 
-    console.log(questionCount);
+    function startGame () {
+        populateQuestions ();
+    }
+
+    startGame ();
+
+    function checkCompleteness() {
+        if (questionCount >= 15) {
+            $('#continue_button').show();
+        }
+    }
+
+    $('.continue-button').click(function() {
+        startGame();
+        questionCount = 0;
+    });
+
+    function answerClick(answer, idx, qPoints, selector) {
+        questionCount++;
+        if (answer == musicQuestions[idx]['correct_answer']) {
+            points += qPoints;
+            $('#current_points').html(points);
+            $(selector).html($(correctCard));
+        }
+        else {
+            $(selector).html($(incorrectCard));
+        }
+        checkCompleteness();
+    }
 
     $('#current_points').html(points);
 
-    $.get('https://opentdb.com/api.php?amount=5&category=12&difficulty=medium&type=boolean', populateMusic)
-    function populateMusic(data) {
-        for (let i = 0; i < data.results.length; i++) {
-            var questionObj = {};
-            var question = data.results[i]['question'];
-            var correctAnswer = data.results[i]['correct_answer'];
-            var incorrectAnswers = data.results[i]['incorrect_answers'];
-            questionObj['question'] = question;
-            questionObj['correct_answer'] = correctAnswer;
-            questionObj['incorrect_answers'] = incorrectAnswers;
-            musicQuestions[i] = questionObj;
+    function populateQuestions (){
+        $.get('https://opentdb.com/api.php?amount=5&category=12&difficulty=medium&type=boolean', populateMusic)
+        function populateMusic(data) {
+            for (let i = 0; i < data.results.length; i++) {
+                var questionObj = {};
+                var question = data.results[i]['question'];
+                var correctAnswer = data.results[i]['correct_answer'];
+                var incorrectAnswers = data.results[i]['incorrect_answers'];
+                questionObj['question'] = question;
+                questionObj['correct_answer'] = correctAnswer;
+                questionObj['incorrect_answers'] = incorrectAnswers;
+                musicQuestions[i] = questionObj;
+            }
+            $('.mq100').append(musicQuestions[0]['question']);
+            $('.mq200').append(musicQuestions[1]['question']);
+            $('.mq300').append(musicQuestions[2]['question']);
+            $('.mq400').append(musicQuestions[3]['question']);
+            $('.mq500').append(musicQuestions[4]['question']);
         }
-        $('.mq100').append(musicQuestions[0]['question']);
-        $('.mq200').append(musicQuestions[1]['question']);
-        $('.mq300').append(musicQuestions[2]['question']);
-        $('.mq400').append(musicQuestions[3]['question']);
-        $('.mq500').append(musicQuestions[4]['question']);
+
+        $.get('https://opentdb.com/api.php?amount=5&category=14&difficulty=medium&type=boolean', populateTelevision)
+        function populateTelevision(data) {
+            for (let i = 0; i < data.results.length; i++) {
+                var questionObj = {};
+                var question = data.results[i]['question'];
+                var correctAnswer = data.results[i]['correct_answer'];
+                var incorrectAnswers = data.results[i]['incorrect_answers'];
+                questionObj['question'] = question;
+                questionObj['correct_answer'] = correctAnswer;
+                questionObj['incorrect_answers'] = incorrectAnswers;
+                tvQuestions[i] = questionObj;
+            }
+            $('.tq100').append(tvQuestions[0]['question']);
+            $('.tq200').append(tvQuestions[1]['question']);
+            $('.tq300').append(tvQuestions[2]['question']);
+            $('.tq400').append(tvQuestions[3]['question']);
+            $('.tq500').append(tvQuestions[4]['question']);
+        }
+
+        $.get('https://opentdb.com/api.php?amount=5&category=15&difficulty=medium&type=boolean', populateVideo)
+        function populateVideo(data) {
+            for (let i = 0; i < data.results.length; i++) {
+                var questionObj = {};
+                var question = data.results[i]['question'];
+                var correctAnswer = data.results[i]['correct_answer'];
+                var incorrectAnswers = data.results[i]['incorrect_answers'];
+                questionObj['question'] = question;
+                questionObj['correct_answer'] = correctAnswer;
+                questionObj['incorrect_answers'] = incorrectAnswers;
+                videoQuestions[i] = questionObj;
+            }
+            $('.vq100').append(videoQuestions[0]['question']);
+            $('.vq200').append(videoQuestions[1]['question']);
+            $('.vq300').append(videoQuestions[2]['question']);
+            $('.vq400').append(videoQuestions[3]['question']);
+            $('.vq500').append(videoQuestions[4]['question']);
+        }
     }
 
     // music question replacements
@@ -49,173 +117,44 @@ $(document).ready(function () {
 
     // music question answer clicks
     $('#mq100-true').click(function () {
-        questionCount++;
-        var answer = "True";
-        if (answer == musicQuestions[0]['correct_answer']) {
-            points += 100;
-            $('#current_points').html(points);
-            $('.music-a100').html($(correctCard));
-            alert('Correct!');
-        }
-        else {
-            $('.music-a100').html($(incorrectCard));
-            alert('Incorrect!');
-        }
+        answerClick('True', 0, 100, '.music-a100');
     });
 
     $('#mq100-false').click(function () {
-        questionCount++;
-        var answer = "False";
-        if (answer == musicQuestions[0]['correct_answer']) {
-            points += 100;
-            $('#current_points').html(points);
-            $('.music-a100').html($(correctCard));
-            alert('Correct!');
-        }
-        else {
-            $('.music-a100').html($(incorrectCard));
-            alert('Incorrect!');
-        }
+        answerClick('False', 0, 100, '.music-a100');
     });
 
     $('#mq200-true').click(function () {
-        questionCount++;
-        var answer = "True";
-        if (answer == musicQuestions[1]['correct_answer']) {
-            points += 200;
-            $('#current_points').html(points);
-            $('.music-a200').html($(correctCard));
-            alert('Correct!');
-        }
-        else {
-            $('.music-a200').html($(incorrectCard));
-            alert('Incorrect!');
-        }
+        answerClick('True', 0, 200, '.music-a200');
     });
 
     $('#mq200-false').click(function () {
-        questionCount++;
-        var answer = "False";
-        if (answer == musicQuestions[1]['correct_answer']) {
-            points += 200;
-            $('#current_points').html(points);
-            $('.music-a200').html($(correctCard));
-            alert('Correct!');
-        }
-        else {
-            $('.music-a200').html($(incorrectCard));
-            alert('Incorrect!');
-        }
+        answerClick('False', 0, 200, '.music-a200');
     });
 
     $('#mq300-true').click(function () {
-        questionCount++;
-        var answer = "True";
-        if (answer == musicQuestions[2]['correct_answer']) {
-            points += 300;
-            $('#current_points').html(points);
-            $('.music-a300').html($(correctCard));
-            alert('Correct!');
-        }
-        else {
-            $('.music-a300').html($(incorrectCard));
-            alert('Incorrect!');
-        }
+        answerClick('True', 0, 300, '.music-a300');
     });
 
     $('#mq300-false').click(function () {
-        questionCount++;
-        var answer = "False";
-        if (answer == musicQuestions[2]['correct_answer']) {
-            points += 300;
-            $('#current_points').html(points);
-            $('.music-a300').html($(correctCard));
-            alert('Correct!');
-        }
-        else {
-            $('.music-a300').html($(incorrectCard));
-            alert('Incorrect!');
-        }
+        answerClick('False', 0, 300, '.music-a300');
     });
 
     $('#mq400-true').click(function () {
-        questionCount++;
-        var answer = "True";
-        if (answer == musicQuestions[3]['correct_answer']) {
-            points += 400;
-            $('#current_points').html(points);
-            $('.music-a400').html($(correctCard));
-            alert('Correct!');
-        }
-        else {
-            $('.music-a400').html($(incorrectCard));
-            alert('Incorrect!');
-        }
+        answerClick('True', 0, 400, '.music-a400');
     });
 
     $('#mq400-false').click(function () {
-        questionCount++;
-        var answer = "False";
-        if (answer == musicQuestions[3]['correct_answer']) {
-            points += 400;
-            $('#current_points').html(points);
-            $('.music-a400').html($(correctCard));
-            alert('Correct!');
-        }
-        else {
-            $('.music-a400').html($(incorrectCard));
-            alert('Incorrect!');
-        }
+        answerClick('False', 0, 400, '.music-a400');
     });
 
     $('#mq500-true').click(function () {
-        questionCount++;
-        var answer = "True";
-        if (answer == musicQuestions[4]['correct_answer']) {
-            points += 500;
-            $('#current_points').html(points);
-            $('.music-a500').html($(correctCard));
-            alert('Correct!');
-        }
-        else {
-            $('.music-a500').html($(incorrectCard));
-            alert('Incorrect!');
-        }
+        answerClick('True', 0, 500, '.music-a500');
     });
 
     $('#mq500-false').click(function () {
-        questionCount++;
-        var answer = "False";
-        if (answer == musicQuestions[4]['correct_answer']) {
-            points += 500;
-            $('#current_points').html(points);
-            $('.music-a500').html($(correctCard));
-            alert('Correct!');
-        }
-        else {
-            $('.music-a500').html($(incorrectCard));
-            alert('Incorrect!');
-        }
+        answerClick('False', 0, 500, '.music-a500');
     });
-
-    $.get('https://opentdb.com/api.php?amount=5&category=14&difficulty=medium&type=boolean', populateTelevision)
-    function populateTelevision(data) {
-        for (let i = 0; i < data.results.length; i++) {
-            var questionObj = {};
-            var question = data.results[i]['question'];
-            var correctAnswer = data.results[i]['correct_answer'];
-            var incorrectAnswers = data.results[i]['incorrect_answers'];
-            questionObj['question'] = question;
-            questionObj['correct_answer'] = correctAnswer;
-            questionObj['incorrect_answers'] = incorrectAnswers;
-            tvQuestions[i] = questionObj;
-        }
-        $('.tq100').append(tvQuestions[0]['question']);
-        $('.tq200').append(tvQuestions[1]['question']);
-        $('.tq300').append(tvQuestions[2]['question']);
-        $('.tq400').append(tvQuestions[3]['question']);
-        $('.tq500').append(tvQuestions[4]['question']);
-    }
 
     // television question replacements
     $('.television-q100').click(function () {
@@ -236,173 +175,44 @@ $(document).ready(function () {
 
     // television question answer clicks
     $('#tq100-true').click(function () {
-        questionCount++;
-        var answer = "True";
-        if (answer == tvQuestions[0]['correct_answer']) {
-            points += 100;
-            $('#current_points').html(points);
-            $('.television-a100').html($(correctCard));
-            alert('Correct!');
-        }
-        else {
-            $('.television-a100').html($(incorrectCard));
-            alert('Incorrect!');
-        }
+        answerClick('True', 0, 100, '.television-a100');
     });
 
     $('#tq100-false').click(function () {
-        questionCount++;
-        var answer = "False";
-        if (answer == tvQuestions[0]['correct_answer']) {
-            points += 100;
-            $('#current_points').html(points);
-            $('.television-a100').html($(correctCard));
-            alert('Correct!');
-        }
-        else {
-            $('.television-a100').html($(incorrectCard));
-            alert('Incorrect!');
-        }
+        answerClick('False', 0, 100, '.television-a100');
     });
 
     $('#tq200-true').click(function () {
-        questionCount++;
-        var answer = "True";
-        if (answer == tvQuestions[1]['correct_answer']) {
-            points += 200;
-            $('#current_points').html(points);
-            $('.television-a200').html($(correctCard));
-            alert('Correct!');
-        }
-        else {
-            $('.television-a200').html($(incorrectCard));
-            alert('Incorrect!');
-        }
+        answerClick('True', 0, 200, '.television-a200');
     });
 
     $('#tq200-false').click(function () {
-        questionCount++;
-        var answer = "False";
-        if (answer == tvQuestions[1]['correct_answer']) {
-            points += 200;
-            $('#current_points').html(points);
-            $('.television-a200').html($(correctCard));
-            alert('Correct!');
-        }
-        else {
-            $('.television-a200').html($(incorrectCard));
-            alert('Incorrect!');
-        }
+        answerClick('False', 0, 200, '.television-a200');
     });
 
     $('#tq300-true').click(function () {
-        questionCount++;
-        var answer = "True";
-        if (answer == tvQuestions[2]['correct_answer']) {
-            points += 300;
-            $('#current_points').html(points);
-            $('.television-a300').html($(correctCard));
-            alert('Correct!');
-        }
-        else {
-            $('.television-a300').html($(incorrectCard));
-            alert('Incorrect!');
-        }
+        answerClick('True', 0, 300, '.television-a300');
     });
 
     $('#tq300-false').click(function () {
-        questionCount++;
-        var answer = "False";
-        if (answer == tvQuestions[2]['correct_answer']) {
-            points += 300;
-            $('#current_points').html(points);
-            $('.television-a300').html($(correctCard));
-            alert('Correct!');
-        }
-        else {
-            $('.television-a300').html($(incorrectCard));
-            alert('Incorrect!');
-        }
+        answerClick('False', 0, 300, '.television-a300');
     });
 
     $('#tq400-true').click(function () {
-        questionCount++;
-        var answer = "True";
-        if (answer == tvQuestions[3]['correct_answer']) {
-            points += 400;
-            $('#current_points').html(points);
-            $('.television-a400').html($(correctCard));
-            alert('Correct!');
-        }
-        else {
-            $('.television-a400').html($(incorrectCard));
-            alert('Incorrect!');
-        }
+        answerClick('True', 0, 400, '.television-a400');
     });
 
     $('#tq400-false').click(function () {
-        questionCount++;
-        var answer = "False";
-        if (answer == tvQuestions[3]['correct_answer']) {
-            points += 400;
-            $('#current_points').html(points);
-            $('.television-a400').html($(correctCard));
-            alert('Correct!');
-        }
-        else {
-            $('.television-a400').html($(incorrectCard));
-            alert('Incorrect!');
-        }
+        answerClick('False', 0, 400, '.television-a400');
     });
 
     $('#tq500-true').click(function () {
-        questionCount++;
-        var answer = "True";
-        if (answer == tvQuestions[4]['correct_answer']) {
-            points += 500;
-            $('#current_points').html(points);
-            $('.television-a500').html($(correctCard));
-            alert('Correct!');
-        }
-        else {
-            $('.television-a500').html($(incorrectCard));
-            alert('Incorrect!');
-        }
+        answerClick('True', 0, 500, '.television-a500');
     });
 
     $('#tq500-false').click(function () {
-        questionCount++;
-        var answer = "False";
-        if (answer == tvQuestions[4]['correct_answer']) {
-            points += 500;
-            $('#current_points').html(points);
-            $('.television-a500').html($(correctCard));
-            alert('Correct!');
-        }
-        else {
-            $('.television-a500').html($(incorrectCard));
-            alert('Incorrect!');
-        }
+        answerClick('False', 0, 500, '.television-a500');
     });
-
-    $.get('https://opentdb.com/api.php?amount=5&category=15&difficulty=medium&type=boolean', populateVideo)
-    function populateVideo(data) {
-        for (let i = 0; i < data.results.length; i++) {
-            var questionObj = {};
-            var question = data.results[i]['question'];
-            var correctAnswer = data.results[i]['correct_answer'];
-            var incorrectAnswers = data.results[i]['incorrect_answers'];
-            questionObj['question'] = question;
-            questionObj['correct_answer'] = correctAnswer;
-            questionObj['incorrect_answers'] = incorrectAnswers;
-            videoQuestions[i] = questionObj;
-        }
-        $('.vq100').append(videoQuestions[0]['question']);
-        $('.vq200').append(videoQuestions[1]['question']);
-        $('.vq300').append(videoQuestions[2]['question']);
-        $('.vq400').append(videoQuestions[3]['question']);
-        $('.vq500').append(videoQuestions[4]['question']);
-    }
 
     // video game question replacements
     $('.video-q100').click(function () {
@@ -423,152 +233,42 @@ $(document).ready(function () {
 
     // video game question answer clicks
     $('#vq100-true').click(function () {
-        questionCount++;
-        var answer = "True";
-        if (answer == videoQuestions[0]['correct_answer']) {
-            points += 100;
-            $('#current_points').html(points);
-            $('.video-a100').html($(correctCard));
-            alert('Correct!');
-        }
-        else {
-            $('.video-a100').html($(incorrectCard));
-            alert('Incorrect!');
-        }
+        answerClick('True', 0, 100, '.video-a100');
     });
 
     $('#vq100-false').click(function () {
-        questionCount++;
-        var answer = "False";
-        if (answer == videoQuestions[0]['correct_answer']) {
-            points += 100;
-            $('#current_points').html(points);
-            $('.video-a100').html($(correctCard));
-            alert('Correct!');
-        }
-        else {
-            $('.video-a100').html($(incorrectCard));
-            alert('Incorrect!');
-        }
+        answerClick('False', 0, 100, '.video-a100');
     });
 
     $('#vq200-true').click(function () {
-        questionCount++;
-        var answer = "True";
-        if (answer == videoQuestions[1]['correct_answer']) {
-            points += 200;
-            $('#current_points').html(points);
-            $('.video-a200').html($(correctCard));
-            alert('Correct!');
-        }
-        else {
-            $('.video-a200').html($(incorrectCard));
-            alert('Incorrect!');
-        }
+        answerClick('True', 0, 200, '.video-a200');
     });
 
     $('#vq200-false').click(function () {
-        questionCount++;
-        var answer = "False";
-        if (answer == videoQuestions[1]['correct_answer']) {
-            points += 200;
-            $('#current_points').html(points);
-            $('.video-a200').html($(correctCard));
-            alert('Correct!');
-        }
-        else {
-            $('.video-a200').html($(incorrectCard));
-            alert('Incorrect!');
-        }
+        answerClick('False', 0, 200, '.video-a200');
     });
 
     $('#vq300-true').click(function () {
-        questionCount++;
-        var answer = "True";
-        if (answer == videoQuestions[2]['correct_answer']) {
-            points += 300;
-            $('#current_points').html(points);
-            $('.video-a300').html($(correctCard));
-            alert('Correct!');
-        }
-        else {
-            $('.video-a300').html($(incorrectCard));
-            alert('Incorrect!');
-        }
+        answerClick('True', 0, 300, '.video-a300');
     });
 
     $('#vq300-false').click(function () {
-        questionCount++;
-        var answer = "False";
-        if (answer == videoQuestions[2]['correct_answer']) {
-            points += 300;
-            $('#current_points').html(points);
-            $('.video-a300').html($(correctCard));
-            alert('Correct!');
-        }
-        else {
-            $('.video-a300').html($(incorrectCard));
-            alert('Incorrect!');
-        }
+        answerClick('False', 0, 300, '.video-a300');
     });
 
     $('#vq400-true').click(function () {
-        questionCount++;
-        var answer = "True";
-        if (answer == videoQuestions[3]['correct_answer']) {
-            points += 400;
-            $('#current_points').html(points);
-            $('.video-a400').html($(correctCard));
-            alert('Correct!');
-        }
-        else {
-            $('.video-a400').html($(incorrectCard));
-            alert('Incorrect!');
-        }
+        answerClick('True', 0, 400, '.video-a400');
     });
 
     $('#vq400-false').click(function () {
-        questionCount++;
-        var answer = "False";
-        if (answer == videoQuestions[3]['correct_answer']) {
-            points += 400;
-            $('#current_points').html(points);
-            $('.video-a400').html($(correctCard));
-            alert('Correct!');
-        }
-        else {
-            $('.video-a400').html($(incorrectCard));
-            alert('Incorrect!');
-        }
+        answerClick('False', 0, 400, '.video-a400');
     });
 
     $('#vq500-true').click(function () {
-        questionCount++;
-        var answer = "True";
-        if (answer == videoQuestions[4]['correct_answer']) {
-            points += 500;
-            $('#current_points').html(points);
-            $('.video-a500').html($(correctCard));
-            alert('Correct!');
-        }
-        else {
-            $('.video-a500').html($(incorrectCard));
-            alert('Incorrect!');
-        }
+        answerClick('True', 0, 500, '.video-a500');
     });
 
     $('#vq500-false').click(function () {
-        questionCount++;
-        var answer = "False";
-        if (answer == videoQuestions[4]['correct_answer']) {
-            points += 500;
-            $('#current_points').html(points);
-            $('.video-a500').html($(correctCard));
-            alert('Correct!');
-        }
-        else {
-            $('.video-a500').html($(incorrectCard));
-            alert('Incorrect!');
-        }
+        answerClick('False', 0, 500, '.video-a500');
     });
 });
