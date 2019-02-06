@@ -1,0 +1,256 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Trivia</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+    crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Luckiest+Guy|Nunito+Sans" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="site.js"></script>
+  <style>
+    .display {
+      font-family: 'Luckiest Guy', cursive;
+    }
+
+    body {
+      font-family: 'Nunito Sans', sans-serif;
+    }
+
+    .none {
+      display: none;
+    }
+
+    ul li:hover {
+      background-color: lightgrey;
+    }
+
+    .vcenter {
+      min-height: 150px;
+      justify-content: center;
+    }
+
+    .hovercard:hover {
+      background-color: silver;
+    }
+  </style>
+</head>
+
+<body class="bg-secondary">
+  <div class="container my-3 bg-light rounded border text-center">
+    <div class="my-3 bg-white border rounded p-3">
+      <h1 class="my-3 display">TRIVIA NIGHT - ENTERTAINMENT</h1>
+      <h2 class="h4">CURRENT POINTS: <span id="current_points"></span></h2>
+      <a href="javascript:window.location.reload(true)" class="btn btn-primary none" role="button" id="continue_button">CONTINUE WITH NEW QUESTIONS</a>
+    </div>
+
+    <!-- categories -->
+    <div class="card-deck mb-3">
+      <div class="card bg-primary text-white text-center p-3">
+        <h3 class="mb-0">MUSIC</h3>
+      </div>
+      <div class="card bg-primary text-white text-center p-3">
+        <h3 class="mb-0">TELEVISION</h3>
+      </div>
+      <div class="card bg-primary text-white text-center p-3">
+        <h3 class="mb-0">VIDEO GAMES</h3>
+      </div>
+    </div>
+    <!-- categories -->
+
+    <!-- 100 -->
+    <div class="card-deck mb-3">
+      <div class="card hovercard p-3 vcenter music-q100">
+        <h4 class="h1 mb-0">100</h4>
+      </div>
+      <div class="card hovercard p-3 vcenter television-q100">
+        <h4 class="h1 mb-0">100</h4>
+      </div>
+      <div class="card hovercard p-3 vcenter video-q100">
+        <h4 class="h1 mb-0">100</h4>
+      </div>
+    </div>
+    <!-- 100 -->
+
+    <!-- 200 -->
+    <div class="card-deck mb-3">
+      <div class="card hovercard p-3 vcenter music-q200">
+        <h4 class="h1 mb-0">200</h4>
+      </div>
+      <div class="card hovercard p-3 vcenter television-q200">
+        <h4 class="h1 mb-0">200</h4>
+      </div>
+      <div class="card hovercard p-3 vcenter video-q200">
+        <h4 class="h1 mb-0">200</h4>
+      </div>
+    </div>
+    <!-- 200 -->
+
+    <!-- 300 -->
+    <div class="card-deck mb-3">
+      <div class="card hovercard p-3 vcenter music-q300">
+        <h4 class="h1 mb-0">300</h4>
+      </div>
+      <div class="card hovercard p-3 vcenter television-q300">
+        <h4 class="h1 mb-0">300</h4>
+      </div>
+      <div class="card hovercard p-3 vcenter video-q300">
+        <h4 class="h1 mb-0">300</h4>
+      </div>
+    </div>
+    <!-- 300 -->
+
+    <!-- 400 -->
+    <div class="card-deck mb-3">
+      <div class="card hovercard p-3 vcenter music-q400">
+        <h4 class="h1 mb-0">400</h4>
+      </div>
+      <div class="card hovercard p-3 vcenter television-q400">
+        <h4 class="h1 mb-0">400</h4>
+      </div>
+      <div class="card hovercard p-3 vcenter video-q400">
+        <h4 class="h1 mb-0">400</h4>
+      </div>
+    </div>
+    <!-- 400 -->
+
+    <!-- 500 -->
+    <div class="card-deck mb-3">
+      <div class="card hovercard p-3 vcenter music-q500">
+        <h4 class="h1 mb-0">500</h4>
+      </div>
+      <div class="card hovercard p-3 vcenter television-q500">
+        <h4 class="h1 mb-0">500</h4>
+      </div>
+      <div class="card hovercard p-3 vcenter video-q500">
+        <h4 class="h1 mb-0">500</h4>
+      </div>
+    </div>
+    <!-- 500 -->
+
+    <!-- hidden music questions -->
+    <div class="card music-a100 none p-3">
+      <div class="h5 mq100"></div>
+      <ul class="list-group">
+        <li class="list-group-item" id="mq100-true">TRUE</li>
+        <li class="list-group-item" id="mq100-false">FALSE</li>
+      </ul>
+    </div>
+    <div class="card music-a200 none p-3">
+      <div class="h5 mq200"></div>
+      <ul class="list-group">
+        <li class="list-group-item" id="mq200-true">TRUE</li>
+        <li class="list-group-item" id="mq200-false">FALSE</li>
+      </ul>
+    </div>
+    <div class="card music-a300 none p-3">
+      <div class="h5 mq300"></div>
+      <ul class="list-group">
+        <li class="list-group-item" id="mq300-true">TRUE</li>
+        <li class="list-group-item" id="mq300-false">FALSE</li>
+      </ul>
+    </div>
+    <div class="card music-a400 none p-3">
+      <div class="h5 mq400"></div>
+      <ul class="list-group">
+        <li class="list-group-item" id="mq400-true">TRUE</li>
+        <li class="list-group-item" id="mq400-false">FALSE</li>
+      </ul>
+    </div>
+    <div class="card music-a500 none p-3">
+      <div class="h5 mq500"></div>
+      <ul class="list-group">
+        <li class="list-group-item" id="mq500-true">TRUE</li>
+        <li class="list-group-item" id="mq500-false">FALSE</li>
+      </ul>
+    </div>
+    <!-- hidden music questions -->
+
+    <!-- hidden television questions -->
+    <div class="card television-a100 none p-3">
+      <div class="h5 tq100"></div>
+      <ul class="list-group">
+        <li class="list-group-item" id="tq100-true">TRUE</li>
+        <li class="list-group-item" id="tq100-false">FALSE</li>
+      </ul>
+    </div>
+    <div class="card television-a200 none p-3">
+      <div class="h5 tq200"></div>
+      <ul class="list-group">
+        <li class="list-group-item" id="tq200-true">TRUE</li>
+        <li class="list-group-item" id="tq200-false">FALSE</li>
+      </ul>
+    </div>
+    <div class="card television-a300 none p-3">
+      <div class="h5 tq300"></div>
+      <ul class="list-group">
+        <li class="list-group-item" id="tq300-true">TRUE</li>
+        <li class="list-group-item" id="tq300-false">FALSE</li>
+      </ul>
+    </div>
+    <div class="card television-a400 none p-3">
+      <div class="h5 tq400"></div>
+      <ul class="list-group">
+        <li class="list-group-item" id="tq400-true">TRUE</li>
+        <li class="list-group-item" id="tq400-false">FALSE</li>
+      </ul>
+    </div>
+    <div class="card television-a500 none p-3">
+      <div class="h5 tq500"></div>
+      <ul class="list-group">
+        <li class="list-group-item" id="tq500-true">TRUE</li>
+        <li class="list-group-item" id="tq500-false">FALSE</li>
+      </ul>
+    </div>
+    <!-- hidden television questions -->
+
+    <!-- hidden video questions -->
+    <div class="card video-a100 none p-3">
+      <div class="h5 vq100"></div>
+      <ul class="list-group">
+        <li class="list-group-item" id="vq100-true">TRUE</li>
+        <li class="list-group-item" id="vq100-false">FALSE</li>
+      </ul>
+    </div>
+    <div class="card video-a200 none p-3">
+      <div class="h5 vq200"></div>
+      <ul class="list-group">
+        <li class="list-group-item" id="vq200-true">TRUE</li>
+        <li class="list-group-item" id="vq200-false">FALSE</li>
+      </ul>
+    </div>
+    <div class="card video-a300 none p-3">
+      <div class="h5 vq300"></div>
+      <ul class="list-group">
+        <li class="list-group-item" id="vq300-true">TRUE</li>
+        <li class="list-group-item" id="vq300-false">FALSE</li>
+      </ul>
+    </div>
+    <div class="card video-a400 none p-3">
+      <div class="h5 vq400"></div>
+      <ul class="list-group">
+        <li class="list-group-item" id="vq400-true">TRUE</li>
+        <li class="list-group-item" id="vq400-false">FALSE</li>
+      </ul>
+    </div>
+    <div class="card video-a500 none p-3">
+      <div class="h5 vq500"></div>
+      <ul class="list-group">
+        <li class="list-group-item" id="vq500-true">TRUE</li>
+        <li class="list-group-item" id="vq500-false">FALSE</li>
+      </ul>
+    </div>
+    <!-- hidden video questions -->
+
+    <!-- hidden result cards -->
+    <div class="card p-3 vcenter bg-light border-danger none" id="incorrect">
+      <h5 class="h1 mb-0">INCORRECT</h5>
+    </div>
+    <!-- hidden result cards -->
+
+  </div>
+</body>
+
+</html>
